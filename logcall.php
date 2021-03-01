@@ -1,3 +1,17 @@
+<?php
+	require "db.php";
+	$conn = new mysqli(DB_SERVER,DB_USER,DB_PASSWORD,DB_DATABASE);
+	$sql = "SELECT * FROM incident_type";
+	$result = $conn->query($sql);
+	$incidentTypes = [];
+	while($row = $results-fetch_assoc()){
+		$id = $row["incident_type_id"];
+		$type = $row["incident_type_desc"];
+		$incidentType = ["id"=>$id, "type"=>$type];	
+		array_push($incidentTypes,$incidentType);
+	}
+	$conn->close();
+?>
 <!doctype html>
 <html>
 <head>
@@ -10,27 +24,9 @@
 
 <body>
 <div class="container style=width:900px">
-  <header> <img src="image/banner.jpg" class="img-fluid" alt="PESS">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent1">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active"> <a class="nav-link" 
-			   href="logcall.html">Home</a> </li>
-          <li class="nav-item active"> <a class="nav-link" href="dispatch.html">Dispatch</a> </li>
-          <li class="nav-item active"> <a class="nav-link"
-				href="update.html">Update</a> </li>
-          <li class="nav-item active"> <a class="nav-link" href="history.html">History</a> </li>
-          <li class="nav-item"> <a class="nav-link" href="#">Link</a> </li>
-          <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Reports </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown1"> <a class="dropdown-item" href="#">Action</a> <a class="dropdown-item" href="#">Another action</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a> </div>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </header>
+  <?php
+	include "header.php";
+	?>
   <section class="mt-3">
     <form>
       <div class="form-group row">
@@ -57,8 +53,11 @@
 			 <select id="typeOfIncident" class="form-control"
 			  name="typeOfIncident">
 			 	<option value="">Select</option>
-				<option value="Accident">Car Accident</option>
-
+				<?php
+				 	foreach($incidentTypes as $incidentType){
+						echo "<optional value=\"" . $incidentType["id"] . "\">" . $incidentType["type"] . "</option";
+					}
+				 ?>
 			 </select>
 		 </div>
         </div>
@@ -82,6 +81,9 @@
 		
          </form>
   </section>
+	<?php
+		include "footer.php";
+	?>
 </div>
 <script src="js/jquery-3.4.1.min.js"></script> 
 <script src="js/popper.min.js"></script> 
