@@ -7,7 +7,7 @@
 			   href="logcall.php">Home</a> </li>
           <li class="nav-item active"> <a class="nav-link" href="dispatch.php">Dispatch</a> </li>
           <li class="nav-item active"> <a class="nav-link"
-				href="update.php">Update</a> </li>
+				href="search.php">Update</a> </li>
           <li class="nav-item active"> <a class="nav-link" href="history.html">History</a> </li>
           <li class="nav-item"> <a class="nav-link" href="#">Link</a> </li>
           <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Reports </a>

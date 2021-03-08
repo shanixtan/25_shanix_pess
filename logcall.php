@@ -1,89 +1,87 @@
 <?php
-	require "db.php";
-	$conn = new mysqli(DB_SERVER,DB_USER,DB_PASSWORD,DB_DATABASE);
-	$sql = "SELECT * FROM incident_type";
-	$result = $conn->query($sql);
-	$incidentTypes = [];
-	while($row = $results-fetch_assoc()){
-		$id = $row["incident_type_id"];
-		$type = $row["incident_type_desc"];
-		$incidentType = ["id"=>$id, "type"=>$type];	
-		array_push($incidentTypes,$incidentType);
-	}
-	$conn->close();
+  require_once "db.php";
+  $conn = new mysqli(DB_SERVER,DB_USER,DB_PASSWORD,DB_DATABASE);
+  $sql = "SELECT * FROM incident_type";
+  $results = $conn->query($sql);
+  $incidentTypes = [];
+  while($row = $results->fetch_assoc()){
+    $id = $row["incident_type_id"];
+    $type = $row["incident_type_desc"];
+    $incidentType = ["id"=>$id, "type"=>$type];
+    array_push($incidentTypes,$incidentType);
+  }
+  $conn->close();
 ?>
 <!doctype html>
 <html>
 <head>
 <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Logcall</title>
-<link href="css/bootstrap-4.4.1.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="css/bootstrap-4.4.1.css">
 </head>
 
 <body>
-<div class="container style=width:900px">
+<div class="container" style="width: 900px">
   <?php
-	include "header.php";
-	?>
+    include "header.php";
+  ?>
+
   <section class="mt-3">
-    <form>
+    <form action="dispatch.php" method="post">
       <div class="form-group row">
-        <label for="callerName" class="co-sm-4 col-form-label">Caller's Name</label>
-         <div class="col-sm-8">
-	     <input type="text" class="form-control" id="callerName" name="callerName">
-		 </div>
+        <label for="callerName" class="col-sm-4 col-form-label">Caller's Name</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="callerName" name="callerName">
         </div>
-		  <div class="form-group row">
-        <label for="contactNo" class="co-sm-4 col-form-label">Contact No</label>
-         <div class="col-sm-8">
-	     <input type="text" class="form-control" id="contactNo" name="contactNo">
-		 </div>
+      </div>
+    <div class="form-group row">
+        <label for="contactNo" class="col-sm-4 col-form-label">Contact No</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="contactNo" name="contactNo">
         </div>
-		  <div class="form-group row">
-        <label for="locationOfIncident" class="co-sm-4 col-form-label">Location of Incident</label>
-         <div class="col-sm-8">
-	     <input type="text" class="form-control" id="locationOfIncident" name="locationOfIncident">
-		 </div>
+      </div>
+    <div class="form-group row">
+        <label for="locationOfIncident" class="col-sm-4 col-form-label">Location Of Incident </label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="locationOfIncident" name="locationOfIncident">
         </div>
-		<div class="form-group row">
-        <label for="typeOfIncident" class="co-sm-4 col-form-label">Type of Incident</label>
-         <div class="col-sm-8">
-			 <select id="typeOfIncident" class="form-control"
-			  name="typeOfIncident">
-			 	<option value="">Select</option>
-				<?php
-				 	foreach($incidentTypes as $incidentType){
-						echo "<optional value=\"" . $incidentType["id"] . "\">" . $incidentType["type"] . "</option";
-					}
-				 ?>
-			 </select>
-		 </div>
+      </div>
+    <div class="form-group row">
+        <label for="typeOfIncident" class="col-sm-4 col-form-label">Type Of Incident </label>
+        <div class="col-sm-8">
+          <select id="typeOfIncident" class="form-control" name="typeOfIncident">
+      <option value="">Select</option>
+        <?php
+          foreach($incidentTypes as $incidentType){
+          echo "<option value=\"" . $incidentType["id"] . "\">".
+          $incidentType["type"] . "<?option>";
+        }
+        ?>
+        
+      </select>
         </div>
-		<div class="form-group row">
-        <label for="descriptionOfIncident" class="co-sm-4 col-form-label">Description of Incident</label>
-         <div class="col-sm-8">
-			 <textarea name="descriptionOfIncident"
-					   class="form-control"
-					   rows="5"
-					   id="descriptionOfIncident"
-					   ></textarea>
-			
-		 </div>
+      </div>
+    <div class="form-group row">
+        <label for="descriptionOfIncident" class="col-sm-4 col-form-label">Description Of Incident </label>
+        <div class="col-sm-8">
+            <textarea name="descriptionOfIncident"
+            class="form-control"
+            rows="5"
+            id="descriptionOfIncident"
+            ></textarea>
         </div>
-		 <div class="form-group row">
-         <div class="offset-sm-4 col-sm-8">
-		    <button type="submit" class="btn btn-primary" name="submit" id="submit">Process Call</button>
-		 </div>
+      </div>
+    <div class="form-group row">
+        <div class="offset-sm-4 col-sm-8">
+          <button type="submit" class="btn btn-primary" name="btnProcessCall" id="submit">Process call</button>
         </div>
-		
-		
-         </form>
+      </div>
+      
+    </form>
   </section>
-	<?php
-		include "footer.php";
-	?>
+  <?php
+    include "footer.php";
+  ?>
 </div>
 <script src="js/jquery-3.4.1.min.js"></script> 
 <script src="js/popper.min.js"></script> 
